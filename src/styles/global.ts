@@ -24,7 +24,9 @@ export default createGlobalStyle`
   }
 
   button {
-    cursor: pointer
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    border: 0;
   }
 
 `;
