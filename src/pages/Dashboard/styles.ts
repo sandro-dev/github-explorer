@@ -1,19 +1,22 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade } from 'polished';
 
+interface FormProps {
+  hasError: boolean;
+}
+
 export const Title = styled.h1`
-  font-family: Roboto, "sans-serif";
+  font-family: Roboto, 'sans-serif';
   font-weight: bold;
   font-size: 48px;
   line-height: 56px;
-  color: #3A3A3A;
+  color: #3a3a3a;
 
   margin-top: 100px;
   width: 433px;
 `;
 
-export const Form = styled.form`
-
+export const Form = styled.form<FormProps>`
   margin-top: 40px;
   max-width: 710px;
 
@@ -24,20 +27,27 @@ export const Form = styled.form`
     height: 70px;
     padding: 0 24px;
     border: 0;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 5px 0 0 5px;
-    color: #A8A8B3;
+    color: #a8a8b3;
     font-size: 20px;
     font-family: Roboto;
     line-height: 23px;
     padding: 25px;
+    border: 2px solid #fff;
 
+    ${props =>
+      props.hasError &&
+      css`
+        border-color: #ff3030;
+        border-right: 0;
+      `}
   }
 
   button {
     width: 210px;
     height: 70px;
-    background: #04D361;
+    background: #04d361;
     border: 0;
     border-radius: 0px 5px 5px 0px;
     color: #fff;
@@ -47,13 +57,10 @@ export const Form = styled.form`
     &:hover {
       background: ${shade(0.2, '#04d361')};
     }
-
   }
-
 `;
 
 export const Repositories = styled.div`
-
   max-width: 710px;
   margin: 80px 0;
 
@@ -89,7 +96,7 @@ export const Repositories = styled.div`
       margin-left: 16px;
 
       strong {
-        color: #3D3D4D;
+        color: #3d3d4d;
         font-weight: bold;
         font-size: 24px;
         line-height: 28px;
@@ -99,19 +106,19 @@ export const Repositories = styled.div`
         font-weight: normal;
         font-size: 18px;
         line-height: 21px;
-        color: #A8A8B3;
+        color: #a8a8b3;
         margin-top: 5px;
-
       }
-
     }
 
     svg {
-        margin-left: auto;
-      }
-
+      margin-left: auto;
+    }
   }
+`;
 
-
-
+export const Error = styled.span`
+  display: block;
+  margin-top: 8px;
+  color: #fa3030;
 `;
