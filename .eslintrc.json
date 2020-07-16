@@ -43,7 +43,8 @@
       }
     ],
     "camelcase": "off",
-    "@typescript/camelcase": "off"
+    "@typescript/camelcase": "off",
+    "react/jsx-one-expression-per-line": "off"
   },
   "settings": {
     "import/resolver": {
