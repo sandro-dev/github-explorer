@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 
 import { Title, Form, Repositories, Error } from './styles';
@@ -17,25 +17,43 @@ interface Repository {
 const Dashboard: React.FC = () => {
   const [inputError, setInputError] = useState('');
   const [newRepo, setNewRepo] = useState('');
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repositories, setRepositories] = useState<Repository[]>(() => {
+    const storageRepositories = localStorage.getItem(
+      '@GithubExplorer:repositories',
+    );
+
+    if (storageRepositories) {
+      return JSON.parse(storageRepositories);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      '@GithubExplorer:repositories',
+      JSON.stringify(repositories),
+    );
+  }, [repositories]);
 
   async function handleAddRepository(
     event: React.FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
 
-    if (!inputError) {
-      setInputError('Digite um repositório no formato usuario/repositorio');
+    if (!inputError && !newRepo) {
+      setInputError('Digite autor/nome do repositorio');
       return;
     }
 
     try {
       const response = await api.get<Repository>(`repos/${newRepo}`);
+
       setRepositories([...repositories, response.data]);
+
       setNewRepo('');
       setInputError('');
     } catch (err) {
-      setInputError('invalid repository');
+      setInputError('Erro ao buscar esse repositório');
     }
   }
 
@@ -57,7 +75,7 @@ const Dashboard: React.FC = () => {
 
       <Repositories>
         {repositories.map(repository => (
-          <a href="teste">
+          <a key={repository.full_name} href="teste">
             <img
               src={repository.owner.avatar_url}
               alt={repository.owner.login}
