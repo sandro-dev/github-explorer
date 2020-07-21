@@ -76,7 +76,7 @@ export const Issues = styled.div`
     border-radius: 5px;
 
     width: 100%;
-    padding: 16px;
+    padding: 24px;
 
     display: block;
     text-decoration: none;
@@ -94,19 +94,16 @@ export const Issues = styled.div`
     }
 
     div {
-      margin-left: 16px;
+      margin: 0 16px;
+      flex: 1;
 
       strong {
         color: #3d3d4d;
-        font-weight: bold;
         font-size: 24px;
-        line-height: 28px;
       }
 
       p {
-        font-weight: normal;
         font-size: 18px;
-        line-height: 21px;
         color: #a8a8b3;
         margin-top: 5px;
       }
