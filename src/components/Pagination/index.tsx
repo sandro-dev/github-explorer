@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 import { Container } from './styles';
 
 interface PaginationProps {
+  page: number;
   totalPages: number;
+  handlePage: Function;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
+  page,
   totalPages = 1,
+  handlePage,
 }: PaginationProps) => {
-  const [actualPage, setActualPage] = useState(1);
-
-  console.log('actualPage', actualPage);
-  console.log('totalPages', totalPages);
-
   return (
-    <Container page={actualPage}>
+    <Container page={page}>
       {totalPages > 0 ? (
         <button
           type="button"
-          disabled={actualPage === 1}
-          onClick={() => setActualPage(actualPage - 1)}
+          disabled={page === 1}
+          onClick={() => handlePage(page - 1)}
         >
           <MdKeyboardArrowLeft size={23} />
         </button>
@@ -32,7 +31,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           key={`btn_${i + 1}`}
           type="button"
-          onClick={() => setActualPage(i + 1)}
+          onClick={() => handlePage(i + 1)}
         >
           {i + 1}
         </button>
@@ -41,8 +40,8 @@ const Pagination: React.FC<PaginationProps> = ({
       {totalPages > 0 ? (
         <button
           type="button"
-          disabled={actualPage === totalPages}
-          onClick={() => setActualPage(actualPage + 1)}
+          disabled={page === totalPages}
+          onClick={() => handlePage(page + 1)}
         >
           <MdKeyboardArrowRight size={23} />
         </button>

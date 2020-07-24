@@ -5,6 +5,7 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Header, RepositoryInfo, Issues } from './styles';
 import logoImg from '../../assets/logo.svg';
 
+import Pagination from '../../components/Pagination';
 import api from '../../services/api';
 
 interface Repository {
@@ -33,28 +34,36 @@ interface RepositoryParams {
 
 const Repository: React.FC = () => {
   const { params } = useRouteMatch<RepositoryParams>();
-
   const [repository, setRepository] = useState<Repository | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     async function loadData() {
-      //   const [repo, issuesRepo] = await Promise.all([
-      //     api.get(`repos/${params.repository}`),
-      //     api.get(`repos/${params.repository}/issues`),
-      //   ]);
-
       api.get(`repos/${params.repository}`).then(response => {
         setRepository(response.data);
+
+        const per_page = 5;
+        const { open_issues_count } = response.data;
+        setTotalPages(Math.ceil(open_issues_count / per_page));
       });
 
-      api.get(`repos/${params.repository}/issues`).then(response => {
-        setIssues(response.data);
-      });
+      api
+        .get(`repos/${params.repository}/issues`, {
+          params: {
+            page,
+            per_page: 5,
+          },
+        })
+        .then(response => {
+          setIssues(response.data);
+        });
     }
 
     loadData();
-  }, [params.repository]);
+  }, [params.repository, page]);
 
   return (
     <>
@@ -106,6 +115,12 @@ const Repository: React.FC = () => {
           </a>
         ))}
       </Issues>
+
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        handlePage={(pg: number) => setPage(pg)}
+      />
     </>
   );
 };

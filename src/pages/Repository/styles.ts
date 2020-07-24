@@ -69,16 +69,13 @@ export const RepositoryInfo = styled.section`
 `;
 
 export const Issues = styled.div`
-  margin: 80px 0;
+  margin: 80px 0 32px 0;
 
   a {
+    width: 100%;
     background: #fff;
     border-radius: 5px;
-
-    width: 100%;
     padding: 24px;
-
-    display: block;
     text-decoration: none;
 
     display: flex;
