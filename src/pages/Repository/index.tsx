@@ -39,13 +39,13 @@ const Repository: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const per_page = 10;
 
   useEffect(() => {
     async function loadData() {
       api.get(`repos/${params.repository}`).then(response => {
         setRepository(response.data);
 
-        const per_page = 5;
         const { open_issues_count } = response.data;
         setTotalPages(Math.ceil(open_issues_count / per_page));
       });
@@ -54,7 +54,7 @@ const Repository: React.FC = () => {
         .get(`repos/${params.repository}/issues`, {
           params: {
             page,
-            per_page: 5,
+            per_page,
           },
         })
         .then(response => {
